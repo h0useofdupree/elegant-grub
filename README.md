@@ -1,7 +1,69 @@
+## Installation
 
-## Installation:
+### NixOS
 
-Usage:  `./install.sh [OPTIONS...]`
+```nix
+# flake.nix
+
+{
+  inputs = {
+    elegant-grub-theme.url = "github:FluffySpike8/elegant-grub";
+  }
+
+  outputs =
+    { self, nixpkgs, ... }@inputs: {
+      nixosConfigurations = {
+        omen = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+
+          specialArgs = {
+            inherit inputs;
+          };
+
+          modules = [
+            # Device config
+            ./hosts/omen
+          ];
+        };
+      };
+    };
+}
+```
+
+```nix
+# configuration.nix
+
+{ inputs, lib, ... }:
+let
+  theme = inputs.elegant-grub-theme.packages.x86_64-linux.elegant-grub-theme {
+    config = {
+      variant = "float";
+      side = "left";
+      color = "dark";
+      resolution = "1080p";
+      background = "mojave";
+      logo = false;
+      info = false;
+    };
+  };
+in
+{
+  boot.loader.grub = {
+    enable = true;
+    devices = [ "nodev" ];
+    efiInstallAsRemovable = true;
+    efiSupport = true;
+    useOSProber = true;
+    default = "0"; # Boot into Linux as default
+    theme = lib.mkForce "${theme}/theme"; # Force so stylix does not try to overwrite
+  };
+}
+
+```
+
+### Traditional Linux
+
+Usage: `./install.sh [OPTIONS...]`
 
 ```
   -t, --theme     Background theme variant(s) [forest|mojave|mountain|wave] (default is forest)
@@ -17,53 +79,56 @@ Usage:  `./install.sh [OPTIONS...]`
 
 _If no options are used, a user interface `dialog` will show up instead_
 
-### Examples:
- - Install mountain theme on 2k display device:
+#### Examples
+
+- Install mountain theme on 2k display device:
 
 ```sh
 sudo ./install.sh -t mountain -s 2k
 ```
 
- - Install wave theme into /boot/grub/themes:
+- Install wave theme into /boot/grub/themes:
 
 ```sh
 sudo ./install.sh -b -t wave
 ```
 
- - Uninstall mountain theme:
+- Uninstall mountain theme:
 
 ```sh
 sudo ./install.sh -r -t mountain
 ```
 
-## Issues / tweaks:
+## Issues / tweaks
 
 ### Correcting display resolution:
 
- - On the grub screen, press `c` to enter the command line
- - Enter `vbeinfo` or `videoinfo` to check available resolutions
- - Open `/etc/default/grub`, and edit `GRUB_GFXMODE=[height]x[width]x32` to match your resolution
- - Finally, run `grub-mkconfig -o /boot/grub/grub.cfg` to update your grub config
+- On the grub screen, press `c` to enter the command line
+- Enter `vbeinfo` or `videoinfo` to check available resolutions
+- Open `/etc/default/grub`, and edit `GRUB_GFXMODE=[height]x[width]x32` to match your resolution
+- Finally, run `grub-mkconfig -o /boot/grub/grub.cfg` to update your grub config
 
-### Setting a custom background:
+### Setting a custom background
 
- - Make sure you have `imagemagick` installed, or at least something that provides `convert`
- - Find the resolution of your display, and make sure your background matches the resolution
-   - 1920x1080 >> 1080p
-   - 2560x1440 >> 2k
-   - 3840x2160 >> 4k
- - Place your custom background inside the root of the project, and name it `background.jpg`
- - Run the installer like normal, but with -s `[YOUR_RESOLUTION]` and -t `[THEME]` and -i `[ICON]`
-   - Make sure to replace `[YOUR_RESOLUTION]` with your resolution and `[THEME]` with the theme
+- Make sure you have `imagemagick` installed, or at least something that provides `convert`
+- Find the resolution of your display, and make sure your background matches the resolution
+  - 1920x1080 >> 1080p
+  - 2560x1440 >> 2k
+  - 3840x2160 >> 4k
+- Place your custom background inside the root of the project, and name it `background.jpg`
+- Run the installer like normal, but with -s `[YOUR_RESOLUTION]` and -t `[THEME]` and -i `[ICON]`
+  - Make sure to replace `[YOUR_RESOLUTION]` with your resolution and `[THEME]` with the theme
 
-## Contributing:
- - If you made changes to icons, or added a new one:
-   - Delete the existing icon, if there is one
-   - Run `cd assets; ./render-all.sh`
- - Create a pull request from your branch or fork
- - If any issues occur, report then to the [issue](issues) page
+## Contributing
+
+- If you made changes to icons, or added a new one:
+  - Delete the existing icon, if there is one
+  - Run `cd assets; ./render-all.sh`
+- Create a pull request from your branch or fork
+- If any issues occur, report then to the [issue](issues) page
 
 ## Preview:
+
 ![preview-01](preview-01.jpg?raw=true)
 ![preview-02](preview-02.jpg?raw=true)
 ![preview-03](preview-03.jpg?raw=true)
