@@ -86,6 +86,29 @@
       packages = {
         elegant-grub-theme = mkElegantGrubTheme;
         default = mkElegantGrubTheme {};
+        wave-right-dark-2k = mkElegantGrubTheme {
+          config = {
+            variant = "window";
+            side = "right";
+            color = "dark";
+            resolution = "2k";
+            background = "wave";
+            logo = true;
+            info = false;
+          };
+        };
+
+        minimal-dark = mkElegantGrubTheme {
+          config = {
+            variant = "float";
+            side = "left";
+            color = "dark";
+            resolution = "1080p";
+            background = "forest";
+            logo = false;
+            info = false;
+          };
+        };
       };
     });
 }
