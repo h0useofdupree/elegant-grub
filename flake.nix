@@ -98,6 +98,18 @@
           };
         };
 
+        wave-right-dark-4k = mkElegantGrubTheme {
+          config = {
+            variant = "window";
+            side = "right";
+            color = "dark";
+            resolution = "4k";
+            background = "wave";
+            logo = true;
+            info = false;
+          };
+        };
+
         minimal-dark = mkElegantGrubTheme {
           config = {
             variant = "float";
