@@ -14,7 +14,7 @@
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
 
-      variants = ["float" "sharp" "window"];
+      variants = ["blur" "float" "sharp" "window"];
       sides = ["left" "right"];
       colors = ["dark" "light"];
       resolutions = ["1080p" "2k" "4k"];
