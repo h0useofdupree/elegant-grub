@@ -36,10 +36,25 @@
           if cfg.logo
           then "Nixos.png"
           else "Empty.png";
+        selectThemeFile =
+          if cfg.variant == "blur"
+          then "theme-sharp-${cfg.side}-dark-${cfg.resolution}.txt"
+          else "theme-${cfg.variant}-${cfg.side}-${cfg.color}-${cfg.resolution}.txt";
+        selectPrefix =
+          if cfg.variant == "blur"
+          then "white"
+          else "${cfg.background}-${cfg.color}";
         selectInfoFile =
-          if cfg.info
-          then "${cfg.variant}-${cfg.side}.png"
-          else "Empty.png";
+          if !cfg.info
+          then "Empty.png"
+          else if cfg.variant == "blur"
+          then
+            if cfg.background == "forest"
+            then "sharp-${cfg.side}-alt.png"
+            else "sharp-${cfg.side}.png"
+          else if cfg.background == "forest"
+          then "${cfg.variant}-${cfg.side}-alt.png"
+          else "${cfg.variant}-${cfg.side}.png";
       in
         assert builtins.elem cfg.variant variants;
         assert builtins.elem cfg.side sides;
@@ -64,14 +79,14 @@
 
             installPhase = ''
               mkdir -p $out/theme
-              cp config/theme-${cfg.variant}-${cfg.side}-${cfg.color}-${cfg.resolution}.txt $out/theme/theme.txt
+              cp config/${selectThemeFile} $out/theme/theme.txt
               cp backgrounds/backgrounds-${cfg.background}/background-${cfg.background}-${cfg.variant}-${cfg.side}-${cfg.color}.jpg $out/theme/background.jpg
               cp -r common/*.pf2 $out/theme/
               mkdir -p $out/theme/icons
               cp -r assets/assets-icons-${cfg.color}/icons-${cfg.color}-${cfg.resolution}/* $out/theme/icons/
-              cp -r assets/assets-other/other-${cfg.resolution}/select_c-${cfg.background}-${cfg.color}.png $out/theme/select_c.png
-              cp -r assets/assets-other/other-${cfg.resolution}/select_e-${cfg.background}-${cfg.color}.png $out/theme/select_e.png
-              cp -r assets/assets-other/other-${cfg.resolution}/select_w-${cfg.background}-${cfg.color}.png $out/theme/select_w.png
+              cp -r assets/assets-other/other-${cfg.resolution}/select_c-${selectPrefix}.png $out/theme/select_c.png
+              cp -r assets/assets-other/other-${cfg.resolution}/select_e-${selectPrefix}.png $out/theme/select_e.png
+              cp -r assets/assets-other/other-${cfg.resolution}/select_w-${selectPrefix}.png $out/theme/select_w.png
               cp assets/assets-other/other-${cfg.resolution}/${selectLogoFile} $out/theme/logo.png
               cp assets/assets-other/other-${cfg.resolution}/${selectInfoFile} $out/theme/info.png
             '';
