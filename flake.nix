@@ -86,7 +86,7 @@
       packages = {
         elegant-grub-theme = mkElegantGrubTheme;
         default = mkElegantGrubTheme {};
-        wave-right-dark-2k = mkElegantGrubTheme {
+        wave-window-right-dark-2k = mkElegantGrubTheme {
           config = {
             variant = "window";
             side = "right";
@@ -98,7 +98,7 @@
           };
         };
 
-        wave-right-dark-4k = mkElegantGrubTheme {
+        wave-window-right-dark-4k = mkElegantGrubTheme {
           config = {
             variant = "window";
             side = "right";
@@ -110,7 +110,7 @@
           };
         };
 
-        mojave-blur-left-dark = mkElegantGrubTheme {
+        mojave-blur-left-dark-4k = mkElegantGrubTheme {
           config = {
             variant = "blur";
             side = "left";
@@ -122,12 +122,12 @@
           };
         };
 
-        minimal-dark = mkElegantGrubTheme {
+        forest-float-left-dark-4k = mkElegantGrubTheme {
           config = {
             variant = "float";
             side = "left";
             color = "dark";
-            resolution = "1080p";
+            resolution = "4k";
             background = "forest";
             logo = false;
             info = false;
