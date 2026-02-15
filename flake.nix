@@ -110,7 +110,7 @@
           };
         };
 
-        mojave-blur-left-dark-4k = mkElegantGrubTheme {
+        forest-blur-left-dark-4k = mkElegantGrubTheme {
           config = {
             variant = "blur";
             side = "left";
