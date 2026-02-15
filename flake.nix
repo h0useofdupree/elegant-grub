@@ -110,6 +110,18 @@
           };
         };
 
+        mojave-blur-left-dark = mkElegantGrubTheme {
+          config = {
+            variant = "blur";
+            side = "left";
+            color = "dark";
+            resolution = "4k";
+            background = "forest";
+            logo = true;
+            info = false;
+          };
+        };
+
         minimal-dark = mkElegantGrubTheme {
           config = {
             variant = "float";
